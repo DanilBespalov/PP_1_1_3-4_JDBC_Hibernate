@@ -50,9 +50,9 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void saveUser(String name, String lastName, byte age) {
         try {
-            statement.execute("INSERT INTO users VALUES(?, ?, ?, ? )");
-            statement.execute(name);
-            statement.execute(lastName);
+            statement.execute("INSERT INTO users (name, lastName, age) VALUES(?, ?, ? )");
+            statement.execute("name");
+            statement.execute("lastName");
             statement.execute(String.valueOf(age));
             statement.execute("rollback ");
             statement.execute("commit ");
