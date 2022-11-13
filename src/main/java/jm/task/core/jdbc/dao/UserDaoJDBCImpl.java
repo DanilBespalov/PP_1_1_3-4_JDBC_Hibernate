@@ -9,7 +9,7 @@ import java.util.List;
 
 public class UserDaoJDBCImpl implements UserDao {
     private static int USER_COUNT;
-    private static Connection con = Util.connection;
+    private static final Connection con = Util.connection;
 
     public UserDaoJDBCImpl() {
 
@@ -17,8 +17,7 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void createUsersTable() {
         try (Statement statement = con.createStatement()){
-            String SQL = "CREATE TABLE users (id long, name varchar(45) not null , lastName varchar(45) not null , age int not null)";
-
+            statement.execute( "CREATE TABLE users (id long, name varchar(45) not null , lastName varchar(45) not null , age int not null)");
             statement.execute("rollback ");
             statement.execute("commit ");
         } catch (SQLException e) {
@@ -41,11 +40,11 @@ public class UserDaoJDBCImpl implements UserDao {
     public void saveUser(String name, String lastName, byte age) {
 
         try (PreparedStatement preparedStatement =
-                     con.prepareStatement("INSERT INTO users VALUES(name, lastName, age)")){
+                     con.prepareStatement("INSERT INTO users VALUES(?, ?, ?)")){
 
-            preparedStatement.setString(2, name);
-            preparedStatement.setString(3, lastName);
-            preparedStatement.setByte(4, age);
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, lastName);
+            preparedStatement.setByte(3, age);
 
             preparedStatement.executeUpdate();
             System.out.println("User c именем " + name + "добавлен в базу данных");
