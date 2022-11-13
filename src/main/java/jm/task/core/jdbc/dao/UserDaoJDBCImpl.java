@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDaoJDBCImpl implements UserDao {
-    private static int USER_COUNT;
+//    private static int USER_COUNT;
     private static final Connection con = Util.connection;
 
     public UserDaoJDBCImpl() {
@@ -18,7 +18,6 @@ public class UserDaoJDBCImpl implements UserDao {
     public void createUsersTable() {
         try (Statement statement = con.createStatement()){
             statement.execute( "CREATE TABLE users (id long, name varchar(45) not null , lastName varchar(45) not null , age int not null)");
-            statement.execute("rollback ");
             statement.execute("commit ");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -30,7 +29,6 @@ public class UserDaoJDBCImpl implements UserDao {
         try (Statement statement = con.createStatement()){
             statement.execute("DROP TABLE users");
 
-            statement.execute("rollback ");
             statement.execute("commit ");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -40,7 +38,7 @@ public class UserDaoJDBCImpl implements UserDao {
     public void saveUser(String name, String lastName, byte age) {
 
         try (PreparedStatement preparedStatement =
-                     con.prepareStatement("INSERT INTO users VALUES(?, ?, ?)")){
+                     con.prepareStatement("INSERT INTO users(name, lastName, age) VALUES(?, ?, ?)")){
 
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, lastName);
@@ -48,8 +46,7 @@ public class UserDaoJDBCImpl implements UserDao {
 
             preparedStatement.executeUpdate();
             System.out.println("User c именем " + name + "добавлен в базу данных");
-            
-            preparedStatement.execute("rollback ");
+
             preparedStatement.execute("commit ");
             
         } catch (SQLException e) {
@@ -63,7 +60,6 @@ public class UserDaoJDBCImpl implements UserDao {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
 
-            preparedStatement.execute("rollback ");
             preparedStatement.execute("commit ");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -86,6 +82,7 @@ public class UserDaoJDBCImpl implements UserDao {
 
                 users.add(user);
             }
+            statement.execute("commit ");
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -97,7 +94,6 @@ public class UserDaoJDBCImpl implements UserDao {
         try (Statement statement = con.createStatement()){
             statement.execute("TRUNCATE TABLE users");
 
-            statement.execute("rollback ");
             statement.execute("commit ");
 
         } catch (SQLException e) {
