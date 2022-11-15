@@ -25,7 +25,7 @@ public class UserDaoJDBCImpl implements UserDao {
     public void createUsersTable() {
         try (Statement statement = con.createStatement()){
             statement.execute( "CREATE TABLE users (id long, name varchar(45) not null , lastName varchar(45) not null , age int not null)");
-            statement.execute("commit ");
+            con.commit();
         } catch (SQLException e) {
             e.printStackTrace();
             try {
@@ -40,7 +40,7 @@ public class UserDaoJDBCImpl implements UserDao {
     public void dropUsersTable() {
         try (Statement statement = con.createStatement()){
             statement.execute("DROP TABLE users");
-            statement.execute("commit ");
+            con.commit();
         } catch (SQLException e) {
             e.printStackTrace();
             try {
@@ -63,7 +63,7 @@ public class UserDaoJDBCImpl implements UserDao {
             preparedStatement.executeUpdate();
             System.out.println("User c именем " + name + "добавлен в базу данных");
 
-            preparedStatement.execute("commit ");
+            con.commit();
         } catch (SQLException e) {
             e.printStackTrace();
             try {
@@ -80,7 +80,7 @@ public class UserDaoJDBCImpl implements UserDao {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
 
-            preparedStatement.execute("commit ");
+            con.commit();
         } catch (SQLException e) {
             e.printStackTrace();
             try {
@@ -107,7 +107,7 @@ public class UserDaoJDBCImpl implements UserDao {
 
                 users.add(user);
             }
-            statement.execute("commit ");
+            con.commit();
         } catch (SQLException e) {
             e.printStackTrace();
             try {
@@ -123,7 +123,7 @@ public class UserDaoJDBCImpl implements UserDao {
         try (Statement statement = con.createStatement()){
             statement.execute("TRUNCATE TABLE users");
 
-            statement.execute("commit ");
+            con.commit();
         } catch (SQLException e) {
             e.printStackTrace();
             try {
