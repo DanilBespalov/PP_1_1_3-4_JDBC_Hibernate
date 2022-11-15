@@ -26,9 +26,13 @@ public class UserDaoJDBCImpl implements UserDao {
         try (Statement statement = con.createStatement()){
             statement.execute( "CREATE TABLE users (id long, name varchar(45) not null , lastName varchar(45) not null , age int not null)");
             statement.execute("commit ");
-            statement.execute("rollback ");
         } catch (SQLException e) {
             e.printStackTrace();
+            try {
+                con.rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
         }
 
     }
@@ -36,11 +40,14 @@ public class UserDaoJDBCImpl implements UserDao {
     public void dropUsersTable() {
         try (Statement statement = con.createStatement()){
             statement.execute("DROP TABLE users");
-
             statement.execute("commit ");
-            statement.execute("rollback ");
         } catch (SQLException e) {
             e.printStackTrace();
+            try {
+                con.rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
         }
     }
 
@@ -57,10 +64,13 @@ public class UserDaoJDBCImpl implements UserDao {
             System.out.println("User c именем " + name + "добавлен в базу данных");
 
             preparedStatement.execute("commit ");
-            preparedStatement.execute("rollback ");
-
         } catch (SQLException e) {
             e.printStackTrace();
+            try {
+                con.rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
         }
     }
 
@@ -71,9 +81,13 @@ public class UserDaoJDBCImpl implements UserDao {
             preparedStatement.executeUpdate();
 
             preparedStatement.execute("commit ");
-            preparedStatement.execute("rollback ");
         } catch (SQLException e) {
             e.printStackTrace();
+            try {
+                con.rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
         }
     }
 
@@ -94,10 +108,13 @@ public class UserDaoJDBCImpl implements UserDao {
                 users.add(user);
             }
             statement.execute("commit ");
-            statement.execute("rollback ");
-
         } catch (SQLException e) {
             e.printStackTrace();
+            try {
+                con.rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
         }
         return users;
     }
@@ -107,10 +124,13 @@ public class UserDaoJDBCImpl implements UserDao {
             statement.execute("TRUNCATE TABLE users");
 
             statement.execute("commit ");
-            statement.execute("rollback ");
-
         } catch (SQLException e) {
             e.printStackTrace();
+            try {
+                con.rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
         }
     }
 }
