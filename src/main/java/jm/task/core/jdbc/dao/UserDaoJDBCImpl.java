@@ -10,13 +10,6 @@ import java.util.List;
 public class UserDaoJDBCImpl implements UserDao {
 //    private static int USER_COUNT;
     private static final Connection con = Util.connection;
-    static {
-        try {
-            con.setAutoCommit(false);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
     public UserDaoJDBCImpl() {
 
@@ -27,7 +20,6 @@ public class UserDaoJDBCImpl implements UserDao {
             statement.execute( "CREATE TABLE users (id long, name varchar(45) not null , lastName varchar(45) not null , age int not null)");
             con.commit();
         } catch (SQLException e) {
-            e.printStackTrace();
             try {
                 con.rollback();
             } catch (SQLException ex) {
@@ -42,7 +34,6 @@ public class UserDaoJDBCImpl implements UserDao {
             statement.execute("DROP TABLE users");
             con.commit();
         } catch (SQLException e) {
-            e.printStackTrace();
             try {
                 con.rollback();
             } catch (SQLException ex) {
@@ -65,7 +56,6 @@ public class UserDaoJDBCImpl implements UserDao {
 
             con.commit();
         } catch (SQLException e) {
-            e.printStackTrace();
             try {
                 con.rollback();
             } catch (SQLException ex) {
@@ -82,7 +72,6 @@ public class UserDaoJDBCImpl implements UserDao {
 
             con.commit();
         } catch (SQLException e) {
-            e.printStackTrace();
             try {
                 con.rollback();
             } catch (SQLException ex) {
@@ -109,7 +98,6 @@ public class UserDaoJDBCImpl implements UserDao {
             }
             con.commit();
         } catch (SQLException e) {
-            e.printStackTrace();
             try {
                 con.rollback();
             } catch (SQLException ex) {
@@ -125,7 +113,6 @@ public class UserDaoJDBCImpl implements UserDao {
 
             con.commit();
         } catch (SQLException e) {
-            e.printStackTrace();
             try {
                 con.rollback();
             } catch (SQLException ex) {
